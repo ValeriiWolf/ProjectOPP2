@@ -110,7 +110,7 @@ private:
     std::string queen = "queen";
     std::string jack = "jack";
 public:
-    //CartKartinka(std::string name) { setnamekart(name); }
+    CartKartinka(std::string name) : Cart(name) { setnamekart(name); }
     int konvertnameves(std::string name) {
         int q;
         if (name == ace) {
@@ -127,6 +127,7 @@ public:
 
 class CartInteger :public Cart {
 private:
+    const int k = 10;
     const int c = 9;
     const int d = 8;
     const int e = 7;
@@ -135,7 +136,6 @@ private:
     const int h = 4;
     const int i = 3;
     const int j = 2;
-    std::string namekartInteger;
     std::string two = "four";
     std::string three = "three";
     std::string four = "four";
@@ -144,32 +144,37 @@ private:
     std::string seven = "seven";
     std::string eight = "eight";
     std::string nine = "nine";
+    std::string ten = "ten";
 public:
+    CartInteger(std::string name) : Cart(name) { setnamekart(name); }
     int konvertnameves(std::string name) {
         int q;
-        if (namekartInteger == two) {
+        if (name == two) {
             q = j; return q;
         }
-        else if (namekartInteger == three) {
+        else if (name == three) {
             q = i; return q;
         }
-        else if (namekartInteger == four) {
+        else if (name == four) {
             q = h; return q;
         }
-        else if (namekartInteger == five) {
+        else if (name == five) {
             q = g; return q;
         }
-        else if (namekartInteger == six) {
+        else if (name == six) {
             q = f; return q;
         }
-        else if (namekartInteger == seven) {
+        else if (name == seven) {
             q = e; return q;
         }
-        else if (namekartInteger == eight) {
+        else if (name == eight) {
             q = d; return q;
         }
-        else if (namekartInteger == nine){ 
+        else if (name == nine){
             q = c; return q;
+        }
+        else if (name == ten) {
+            q = k; return q;
         }
         else { return 0; }
         setves(q);
@@ -185,7 +190,30 @@ public:
     void setstavka(int b) { stavka = b; }
     std::string getname() const { return name; }
     int getstavka()const { return stavka; }
-    std::string Win() {};
+    int sravneniesumm(int a, int b) { 
+        int c;
+        if (a == b) {
+            c = 0; return c;
+        }
+        else  {
+            c = a - b; return c;
+        }
+    }
+    void print(int Sumkart,int b,int c) { std::cout<< "nameUchastnika "<< getname() <<" " << "stavkaUchastnika " << getstavka() << " "
+        <<"Win "<< Win(Sumkart, b,c)<<std::endl; }
+    std::string Win(int Sumkart, int b, int c) {
+        std::string a;
+        if (Sumkart == BlackJeck) {
+            a = "victory"; return a;
+        }
+        else if (Sumkart> BlackJeck) {
+            a = "lost";
+            return a;
+        }
+        else if (sravneniesumm(b,c)==0) { a = "nichiy"; return a; }
+        else if (sravneniesumm(b, c) > 0) { a = "victory"; return a; }
+        else { a = "lost"; return a; }
+}
 protected:
     std::string name;
     int stavka;
@@ -239,6 +267,14 @@ int main()
 
     Crupie Djek("Djek", 0);
     Igrok Patrik("Patrik",200);
-
+    int stavkaPatrik = Patrik.getstavka();
+    Djek.setstavka(1.5 * stavkaPatrik);
+    CartInteger kartDjek("ten");
+    kartDjek.konvertnameves(kartDjek.getnamekart());
+    CartKartinka kartPatrik("ace");
+    std::string u = kartPatrik.getnamekart();
+    std::cout << u << std::endl;
+    std::cout << kartDjek.getves() << std::endl;
+    std::cout << kartPatrik.getves() << std::endl;
     return 0;
 }
